@@ -18,10 +18,10 @@ def localizar_componente_por_nome(nome_componente_procurado):
 
     for row in rows:
         nome_componente_planilha = row[2]
-        if isinstance(nome_componente_planilha, str):
+        if isinstance(nome_componente_planilha, str):  
             similaridade = difflib.SequenceMatcher(None, nome_componente_procurado.lower(), nome_componente_planilha.lower()).ratio()
-            if similaridade > 0.8:
-                return row[4], row[3]
+            if similaridade > 0.8:  
+                return row[4], row[3]  
     return "Componente não encontrado com esse nome.", None
 
 # Função principal
@@ -51,5 +51,5 @@ def main():
         nome_componente_procurado = st.text_input("Digite o nome do próximo componente (ou 'sair' para encerrar): ", key=f"componente-{nome_componente_procurado}")
 
 # Executa a função principal
-#if _name_ == "_main_":
-main()
+if __name__ == "__main__":
+    main()

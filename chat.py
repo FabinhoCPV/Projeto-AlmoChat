@@ -1,27 +1,20 @@
 import streamlit as st
-import sqlite3
+from streamlit_chat import message
 from streamlit.components.v1 import html
+import pandas as pd
 import difflib
 
-# Função para conectar ao banco de dados SQLite
-def conectar_bd():
-    conn = sqlite3.connect("banco_de_dados.db")  # Nome do arquivo do banco de dados SQLite
-    return conn
+# Carregar a planilha do Excel
+planilha = pd.read_excel("Planilha de Componentes.xlsx", header=None)
 
-# Função para localizar o componente pelo nome no banco de dados SQLite
 def localizar_componente_por_nome(nome_componente_procurado):
-    conn = conectar_bd()
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM nome_da_tabela")
-    rows = cursor.fetchall()
-    conn.close()
-
-    for row in rows:
-        nome_componente_planilha = row[2]
-        if isinstance(nome_componente_planilha, str):
+    for nome_componente_planilha in planilha[2]:
+        if isinstance(nome_componente_planilha, str):  # Verifica se é uma string
             similaridade = difflib.SequenceMatcher(None, nome_componente_procurado.lower(), nome_componente_planilha.lower()).ratio()
-            if similaridade > 0.8:
-                return row[4], row[3]
+            if similaridade > 0.8:  # Ajuste este valor conforme necessário
+                componente = planilha[planilha[2] == nome_componente_planilha]
+                if not componente.empty:
+                    return componente.iloc[0][4], componente.iloc[0][3]  # Retorna o endereço e a quantidade do primeiro componente encontrado
     return "Componente não encontrado com esse nome.", None
 
 # Função principal
@@ -51,5 +44,5 @@ def main():
         nome_componente_procurado = st.text_input("Digite o nome do próximo componente (ou 'sair' para encerrar): ", key=f"componente-{nome_componente_procurado}")
 
 # Executa a função principal
-#if _name_ == "_main_":
-main()
+if __name__ == "__main__":
+    main()

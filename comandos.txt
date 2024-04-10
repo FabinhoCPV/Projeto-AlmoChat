@@ -1,0 +1,7 @@
+cd Desktop
+cd univesp
+streamlit run chat.py
+
+cd Desktop
+cd univesp
+streamlit run chat_bando_dedos.py

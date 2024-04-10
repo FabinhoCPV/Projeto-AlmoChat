@@ -43,6 +43,6 @@ def main():
         # Solicitar ao usuário o nome do próximo componente
         nome_componente_procurado = st.text_input("Digite o nome do próximo componente (ou 'sair' para encerrar): ", key=f"componente-{nome_componente_procurado}")
 
-Executa a função principal
-#if _name_ == "_main_":
-main()
+# Executa a função principal
+if _name_ == "_main_":
+    main()
